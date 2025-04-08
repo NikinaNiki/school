@@ -16,8 +16,8 @@ if(isset($_POST['submit']))
   $phone=$_POST['phone'];
   $address=$_POST['address'];
   mysqli_query($con,"INSERT INTO schoolreg(s_name,s_email,s_phone,s_address)VALUES('$name','$email','$phone','$address')");
-
-  mysqli_query($con,"insert into login(email,password,type)values('$email','$password','school')");
+$id=mysqli_insert_id($con);
+  mysqli_query($con,"insert into login(email,password,type,id)values('$email','$password','school','$id')");
   header("location:login.php");
 }
 ?>
@@ -55,21 +55,8 @@ if(isset($_POST['submit']))
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right mainNav">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="about.html">About</a></li>
-						<li><a href="courses.html">Courses</a></li>
-					<li><a href="price.html">Price</a></li>
-					<li><a href="videos.html">Videos</a></li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="sidebar-right.html">Right Sidebar</a></li>
-							<li><a href="#">Dummy Link1</a></li>
-							<li><a href="#">Dummy Link2</a></li>
-							<li><a href="#">Dummy Link3</a></li>
-						</ul>
-					</li>
-					<li class="active"><a href="contact.html">Rgistration</a></li>
+					
+				<li class="active"><a href="logout.php">logout</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -89,10 +76,7 @@ if(isset($_POST['submit']))
 	<div class="container">
 				<div class="row">
 					<div class="col-md-8">
-						<h3 class="section-title">Your Message</h3>
-						<p>
-						Lorem Ipsum is inting and typesetting in simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the is dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-						</p>
+						
 						
 						<form class="form-light mt-20" role="form" method="post" enctype="multipart/form-data">
 							<div class="form-group">
@@ -130,23 +114,7 @@ if(isset($_POST['submit']))
 							<button type="submit" class="btn btn-two" name="submit">Register</button><p><br/></p>
 						</form>
 					</div>
-					<div class="col-md-4">
-						<div class="row">
-							<div class="col-md-6">
-								<h3 class="section-title">Office Address</h3>
-								<div class="contact-info">
-									<h5>Address</h5>
-									<p>5th Street, Carl View - United States</p>
-									
-									<h5>Email</h5>
-									<p>info@webthemez.com</p>
-									
-									<h5>Phone</h5>
-									<p>+09 123 1234 123</p>
-								</div>
-							</div> 
-						</div> 						
-					</div>
+					
 				</div>
 			</div>
 	<!-- /container -->

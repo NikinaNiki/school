@@ -38,13 +38,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right mainNav">
 					<li ><a href="searchstudymateral.php">search study material</a></li>
+          
 					<li><a href="checknotice">Check Notice</a></li>
 					
 					<li><a href="insertcomplaint.php">Insert Complaint</a></li>
 					<li><a href="viewcomplaintreply.php">View Complaint Reply</a></li>
                     <li><a href="viewmark.php">View Mark</a></li>
          
-          <li><a href="login.php">Logout</a></li>
+                    <li class="active"><a href="logout.php">logout</a></li>
 					
 					
 

@@ -1,12 +1,55 @@
 <?php
 include 'connection.php';
+session_start();
 if(isset($_POST['login']))
 {
 $email=$_POST['email'];
 $password=$_POST['password'];
-mysqli_query($con,"SELECT schoolreg.s_email,login.type from login inner join schoolreg on schoolreg.s_email=login.email where schoolreg.s_email='$email' and login.password='$password'");
-header("location:school.php");
+$data=mysqli_query($con,"SELECT * from login where email='$email' and password='$password'");
+if(mysqli_num_rows($data)>0)
+{
+
+
+$row=mysqli_fetch_assoc($data);
+$id=$row['id'];
+$type=$row['type'];
+
+
+if($type=="school")
+{
+  $_SESSION['id']=$row['id'];
+  header("location:school.php");
 }
+else if($type=="teacher")
+{
+  $_SESSION['id']=$row['id'];
+  $_SESSION['email']=$row['email'];
+  
+  header("location:teacher.php");
+}
+else if($type=="student")
+{
+  $data1=mysqli_query($con,"select * from studentreg where id='$id'");
+  $row1=mysqli_fetch_assoc($data1);
+  $class=$row1['class'];
+  //var_dump($class);
+  //exit();
+  $_SESSION['id']=$row['id'];
+  $_SESSION['class']=$class;
+  $_SESSION['email']=$row['email'];
+
+  header("location:student.php");
+}
+else if($type=="staff"){
+  $_SESSION['email']=$row['email'];
+  header("location:staff.php");
+}
+}
+else{
+  echo "<script>alert('invalid username or password')</script>";
+}
+}
+
 
 
 
@@ -51,21 +94,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right mainNav">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="about.html">About</a></li>
-						<li><a href="courses.html">Courses</a></li>
-					<li><a href="price.html">Price</a></li>
-					<li><a href="videos.html">Videos</a></li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="sidebar-right.html">Right Sidebar</a></li>
-							<li><a href="#">Dummy Link1</a></li>
-							<li><a href="#">Dummy Link2</a></li>
-							<li><a href="#">Dummy Link3</a></li>
-						</ul>
-					</li>
-					<li class="active"><a href="contact.html">Rgistration</a></li>
+					
+					<li class="active"><a href="">Login</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -76,7 +106,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<header id="head" class="secondary">
             <div class="container">
                     <h1>Login</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing eliras scele!</p>
+                   
                 </div>
     </header>
 
@@ -85,10 +115,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="container">
 				<div class="row">
 					<div class="col-md-8">
-						<h3 class="section-title">Your Message</h3>
-						<p>
-						Lorem Ipsum is inting and typesetting in simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the is dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-						</p>
+						
                         <form method="POST">
 						<div class="form-group">
 								<label>Email</label>
@@ -96,29 +123,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</div>
                             <div class="form-group">
 								<label>password</label>
-								<input type="text" class="form-control" name="password">
+								<input type="password" class="form-control" name="password">
 							</div>
                         
 							<button  type="submit"  name="login" class="btn btn-two">Login</button>
 						</form>
 					</div>
-					<div class="col-md-4">
-						<div class="row">
-							<div class="col-md-6">
-								<h3 class="section-title">Office Address</h3>
-								<div class="contact-info">
-									<h5>Address</h5>
-									<p>5th Street, Carl View - United States</p>
-									
-									<h5>Email</h5>
-									<p>info@webthemez.com</p>
-									
-									<h5>Phone</h5>
-									<p>+09 123 1234 123</p>
-								</div>
-							</div> 
-						</div> 						
-					</div>
+					
 				</div>
 			</div>
 	<!-- /container -->

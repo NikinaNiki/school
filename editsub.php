@@ -1,51 +1,22 @@
 <?php
 include 'connection.php';
+$id=$_GET['id'];
+$data=mysqli_query($con,"select * from subject where id='$id'");
+$row=mysqli_fetch_assoc($data);
+
 if(isset($_POST['submit']))
 {
     
   
-  $name=$_POST['name'];
-  $dob=$_POST['dob'];
-  $gender=$_POST['gender'];
-  $email=$_POST['email'];
-  $phone=$_POST['phone'];
-  $address=$_POST['address'];
-
-  $password=$_POST['password'];
-
-  $pic=$_FILES['f1']['name'];
+    $class=$_POST['class'];
+   $subject=$_POST['subject'];
   
-  if($pic!="")
-  {
-	  $filearray=pathinfo($_FILES['f1']['name']);
-	  $file1=rand();
-	  $file_ext=$filearray["extension"];
-	  $filenew=$file1 .".".$file_ext;
-	 // move_uploaded_file($_FILES['f1']['tmp_name'],"~/images/".$filenew);
-	 $uploadDir = "image/"; // Make sure this directory exists
-$uploadFile = $uploadDir . basename($_FILES["f1"]["name"]);
-$filename= basename($_FILES["f1"]["name"]);
-
-if (move_uploaded_file($_FILES["f1"]["tmp_name"], $uploadFile)) {
-  echo "File successfully uploaded.";
-} else {
-  echo "File upload failed.";
-}
-
-
-  }
-  else
-  {
-	  echo "<script>alert('please try again')</script>";
-  }
-
-
  
-mysqli_query($con,"INSERT INTO staffreg(name,dob,gender,email,phone,address,file)VALUES('$name','$dob','$gender','$email','$phone','$address','$filename')");
-$id=mysqli_insert_id($con);
+mysqli_query($con,"update subject set class='$class',subject='$subject' where id='$id'");
+echo "<script>window.location.href='viewsubject.php';</script>";
 
-mysqli_query($con,"INSERT INTO `login`(`email`, `password`,`type`,`id`) VALUES ('$email','$password','staff','$id')");
-header("location:login.php");
+
+
 }
 ?>
 <!--
@@ -89,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right mainNav">
 					
-				<li class="active"><a href="logout.php">logout</a></li>
+					<li class="active"><a href="">Rgistration</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -99,7 +70,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 		<header id="head" class="secondary">
             <div class="container">
-                    <h1>Staff Registration</h1>
+                    <h1>Add subject/h1>
                    
                 </div>
     </header>
@@ -110,54 +81,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="row">
 					<div class="col-md-8">
 						
+					
 						
-						<form class="form-light mt-20" role="form" method="post" enctype="multipart/form-data">
+                    <form class="form-light mt-20" role="form" method="post" enctype="multipart/form-data">
 							<div class="form-group">
-								<label>Name</label>
-								<input type="text" class="form-control" name="name" Required>
+								<label>class</label>
+                                <select name="class">
+                                <option value="0">select</option>
+							                	<option value="1" <?php if($row['class']=='1') echo 'selected="selected"'; ?> >1</option>
+                                <option value="2" <?php if($row['class']=='2') echo 'selected="selected"'; ?>> 2</option>
+                                <option value="3" <?php if($row['class']=='3') echo 'selected="selected"'; ?>>3</option>
+                                <option value="4" <?php if($row['class']=='4') echo 'selected="selected"'; ?>>4</option>
+                                <option value="5" <?php if($row['class']=='5') echo 'selected="selected"'; ?>>5</option>
+                                <option value="6"<?php if($row['class']=='6') echo 'selected="selected"'; ?>>6</option>
+                                <option value="7" <?php if($row['class']=='7') echo 'selected="selected"'; ?>>7</option>
+                                <option value="8" <?php if($row['class']=='8') echo 'selected="selected"'; ?>>8</option>
+                                <option value="9"<?php if($row['class']=='9') echo 'selected="selected"'; ?>>9</option>
+                                <option value="10" <?php if($row['class']=='10') echo 'selected="selected"'; ?>>10</option>
+                               
+</select>
 							</div>
                             <div class="form-group">
-								<label>DOB</label>
-								<input type="date" class="form-control" placeholder="Your name" name="dob"  Required>
-							</div>
-                            <div class="form-group">
-                            <label>Gender</label>
-                        <select name="gender" class="form-control" id="exampleSelectGender"  Required>
-                          <option value="Male"  >Male</option>
-                          <option value="Female" >Female</option>
-                        </select>
-                        </div>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Email</label>
-										<input type="email" class="form-control" name="email"  Required>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Password</label>
-										<input type="password" class="form-control" name="password" required>
-									</div>
-								</div>
-
-							</div>
-                            <div class="form-group">
-								<label>Phone</label>
-								<input type="text" class="form-control"  name="phone"  Required>
-							</div>
-                            <div class="form-group">
-								<label>Address</label>
-								<textarea class="form-control" id="message" style="height:100px;" name="address"  Required></textarea>
-							</div>
+                            
+								<label>subject</label>
+								<input type="text" class="form-control"  name="subject" value="<?php echo $row['subject'];?>">
 							
-							<div class="form-group">
-							
-                        
-							<input type="file" id="image_id" name="f1" placeholder="image" >
+                            
 							</div>
+                           
 							
-							<button type="submit" class="btn btn-two" name="submit">Register</button><p><br/></p>
+							<button type="submit" class="btn btn-two" name="submit">update</button><p><br/></p>
 						</form>
 					</div>
 					

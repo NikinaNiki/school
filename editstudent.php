@@ -1,5 +1,10 @@
 <?php
 include 'connection.php';
+$id=$_GET['id'];
+$data=mysqli_query($con,"select * from studentreg where id='$id'");
+$row=mysqli_fetch_assoc($data);
+$data1=mysqli_query($con,"select * from login where id='$id'and type='student'");
+$row1=mysqli_fetch_assoc($data1);
 if(isset($_POST['submit']))
 {
     
@@ -10,11 +15,10 @@ if(isset($_POST['submit']))
   $email=$_POST['email'];
   $phone=$_POST['phone'];
   $address=$_POST['address'];
-
+  $class=$_POST['class'];
+  $division=$_POST['division'];
   $password=$_POST['password'];
-
-  $pic=$_FILES['f1']['name'];
-  
+  $id=$_POST['id'];
   if($pic!="")
   {
 	  $filearray=pathinfo($_FILES['f1']['name']);
@@ -25,27 +29,12 @@ if(isset($_POST['submit']))
 	 $uploadDir = "image/"; // Make sure this directory exists
 $uploadFile = $uploadDir . basename($_FILES["f1"]["name"]);
 $filename= basename($_FILES["f1"]["name"]);
-
-if (move_uploaded_file($_FILES["f1"]["tmp_name"], $uploadFile)) {
-  echo "File successfully uploaded.";
-} else {
-  echo "File upload failed.";
-}
-
-
-  }
-  else
-  {
-	  echo "<script>alert('please try again')</script>";
-  }
-
-
  
-mysqli_query($con,"INSERT INTO staffreg(name,dob,gender,email,phone,address,file)VALUES('$name','$dob','$gender','$email','$phone','$address','$filename')");
-$id=mysqli_insert_id($con);
+mysqli_query($con,"update studentreg set name='$name' ,dob='$dob', gender='$gender',email='$email',phone='$phone',address='$address',class='$class',division='$division' ,file='$filename' where id='$id'");
+mysqli_query($con,"update login set name='$name' ,password='$password' where id='$id'");
 
-mysqli_query($con,"INSERT INTO `login`(`email`, `password`,`type`,`id`) VALUES ('$email','$password','staff','$id')");
-header("location:login.php");
+
+  }
 }
 ?>
 <!--
@@ -89,7 +78,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right mainNav">
 					
-				<li class="active"><a href="logout.php">logout</a></li>
+					<li class="active"><a href="">Rgistration</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -99,7 +88,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 		<header id="head" class="secondary">
             <div class="container">
-                    <h1>Staff Registration</h1>
+                    <h1>student Registration</h1>
                    
                 </div>
     </header>
@@ -111,18 +100,26 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="col-md-8">
 						
 						
+						
+
+
+
+
+
+
+
 						<form class="form-light mt-20" role="form" method="post" enctype="multipart/form-data">
 							<div class="form-group">
 								<label>Name</label>
-								<input type="text" class="form-control" name="name" Required>
+								<input type="text" class="form-control" name="name" value="<?php echo $row['name'];?>"  required>
 							</div>
                             <div class="form-group">
 								<label>DOB</label>
-								<input type="date" class="form-control" placeholder="Your name" name="dob"  Required>
+								<input type="date" class="form-control" placeholder="Your name" value="<?php echo $row['dob'];?>" name="dob" required>
 							</div>
                             <div class="form-group">
-                            <label>Gender</label>
-                        <select name="gender" class="form-control" id="exampleSelectGender"  Required>
+                            <label>Gender</label> 
+                        <select name="gender" class="form-control" value="<?php echo $row['gender'];?>"  id="exampleSelectGender" required>
                           <option value="Male"  >Male</option>
                           <option value="Female" >Female</option>
                         </select>
@@ -131,34 +128,65 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Email</label>
-										<input type="email" class="form-control" name="email"  Required>
+										<input type="email" class="form-control" value="<?php echo $row['email'];?>" name="email" required>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Password</label>
-										<input type="password" class="form-control" name="password" required>
+										<input type="text"  value="<?php echo $row1['password'];?>" class="form-control" name="password" >
 									</div>
 								</div>
 
 							</div>
                             <div class="form-group">
 								<label>Phone</label>
-								<input type="text" class="form-control"  name="phone"  Required>
+								<input type="text" class="form-control" value="<?php echo $row['phone'];?>"  name="phone" required>
 							</div>
                             <div class="form-group">
 								<label>Address</label>
-								<textarea class="form-control" id="message" style="height:100px;" name="address"  Required></textarea>
+								<textarea class="form-control" id="message" style="height:100px;" value=""  name="address" required ><?php echo $row['address'];?></textarea>
 							</div>
-							
 							<div class="form-group">
-							
-                        
-							<input type="file" id="image_id" name="f1" placeholder="image" >
+								<label>class</label>
+								<input type="text" class="form-control" value="<?php echo $row['class'];?>" name="class" required>
+							</div>
+                            <div class="form-group">
+								<label>Division</label>
+								<input type="text" class="form-control" name="division"  value="<?php echo $row['division'];?>" >
 							</div>
 							
-							<button type="submit" class="btn btn-two" name="submit">Register</button><p><br/></p>
+                            <div>
+                    <img src="image/<?php echo $row['file'] ;?>" height="100" width="200" id="new">
+                       </div>
+					   <div >
+                        
+                        <input type="file"  name="f1" placeholder="image" id="imageInput" accept="image/*" onchange="previewImage(event)">
+
+                         
+                       <img id="preview" src="" alt="Image Preview" style="max-width: 300px; display: none;">
+
+                      </div>
+							<div class="form-group">
+								
+								<input type="hidden" class="form-control" name="id"  value="<?php echo $row['id'];?>" >
+							</div>
+                            
+							
+							<button type="submit" class="btn btn-two" name="submit">Update</button><p><br/></p>
 						</form>
+						<script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            }
+            document.getElementById("new").style.display="none";
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        </script>
 					</div>
 					
 			</div>

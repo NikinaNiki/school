@@ -37,18 +37,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right mainNav">
-					<li ><a href="teachermanagement.php">Manage Teacher</a></li>
-          <li ><a href="viewteacherregistration.php">view teachers</a></li>
-					<li><a href="staffmanagement.php">Manage staff</a></li>
-          <li><a href="viewstaff.php">view staff</a></li>
-					<li><a href="studentmanagement.php">Manage student</a></li>
-          <li><a href="viewstudent.php">view student</a></li>
-					<li><a href="subjectmanagement.php">manage subject</a></li>
-          <li><a href="viewsubject.php">View subject</a></li>
-          <li><a href="viewcomplaint.php">View complaint</a></li>
-          
-          
-          <li><a href="insertnotice.php">Insert notice</a></li>
+					
+          <li><a href="viewnotice.php">view notice</a></li>
+          <li><a href="staffprofile.php">profile</a></li>
           <li><a href="login.php">Logout</a></li>
 					
 					
@@ -64,8 +55,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<header id="head">
 		<div class="container">
              <div class="heading-text">							
-							<h1 class="animated flipInY delay1"></h1>
-							<p></p>
+							<h1 class="animated flipInY delay1">Start Online Education</h1>
+							<p>Free Online education template for elearning and online education institute.</p>
 						</div>
             
 					<div class="fluid_container">                       
@@ -90,7 +81,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<div class="icon-box-top grey-box-icon-pos">
 								<img src="assets/images/1.png" alt="" />
 							</div><!--icon box top -->
-							
+							<h4>Online Courses</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus eleifend risus ut congue
+							eset nec lacus elit dor broma.</p>
      						<p><a href="#"><em>Read More</em></a></p>
 						</div><!--grey box -->
 					</div><!--/span3-->
@@ -99,7 +92,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<div class="icon-box-top grey-box-icon-pos">
 								<img src="assets/images/2.png" alt="" />
 							</div><!--icon box top -->
-							
+							<h4>Meet our Staff</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus eleifend risus ut congue
+							eset nec lacus elit dor broma.</p>
      						<p><a href="#"><em>Read More</em></a></p>
 						</div><!--grey box -->
 					</div><!--/span3-->
@@ -108,7 +103,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<div class="icon-box-top grey-box-icon-pos">
 								<img src="assets/images/3.png" alt="" />
 							</div><!--icon box top -->
-						
+							<h4>Latest Updates</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus eleifend risus ut congue
+							eset nec lacus elit dor broma.</p>
      						<p><a href="#"><em>Read More</em></a></p>
 						</div><!--grey box -->
 					</div><!--/span3-->

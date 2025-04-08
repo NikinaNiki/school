@@ -1,53 +1,24 @@
+
 <?php
 include 'connection.php';
+
+$id=$_GET['id'];
+
 if(isset($_POST['submit']))
 {
     
   
-  $name=$_POST['name'];
-  $dob=$_POST['dob'];
-  $gender=$_POST['gender'];
-  $email=$_POST['email'];
-  $phone=$_POST['phone'];
-  $address=$_POST['address'];
-
-  $password=$_POST['password'];
-
-  $pic=$_FILES['f1']['name'];
-  
-  if($pic!="")
-  {
-	  $filearray=pathinfo($_FILES['f1']['name']);
-	  $file1=rand();
-	  $file_ext=$filearray["extension"];
-	  $filenew=$file1 .".".$file_ext;
-	 // move_uploaded_file($_FILES['f1']['tmp_name'],"~/images/".$filenew);
-	 $uploadDir = "image/"; // Make sure this directory exists
-$uploadFile = $uploadDir . basename($_FILES["f1"]["name"]);
-$filename= basename($_FILES["f1"]["name"]);
-
-if (move_uploaded_file($_FILES["f1"]["tmp_name"], $uploadFile)) {
-  echo "File successfully uploaded.";
-} else {
-  echo "File upload failed.";
-}
-
-
-  }
-  else
-  {
-	  echo "<script>alert('please try again')</script>";
-  }
-
+  $date=date("Y-m-d");
+ 
+  $reply=$_POST['reply'];
 
  
-mysqli_query($con,"INSERT INTO staffreg(name,dob,gender,email,phone,address,file)VALUES('$name','$dob','$gender','$email','$phone','$address','$filename')");
-$id=mysqli_insert_id($con);
+  mysqli_query($con," UPDATE complaint SET reply='$reply',reply_date='$date' where id='$id'  ");
 
-mysqli_query($con,"INSERT INTO `login`(`email`, `password`,`type`,`id`) VALUES ('$email','$password','staff','$id')");
-header("location:login.php");
 }
 ?>
+
+
 <!--
 Author: WebThemez
 Author URL: http://webthemez.com
@@ -74,6 +45,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<script src="assets/js/html5shiv.js"></script>
 	<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
+    <style>
+        table,tr,th,td{
+            border:2px solid black;
+            border-collapse:collapse;
+        }
+        </style>
+
 </head>
 
 <body>
@@ -99,7 +77,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 		<header id="head" class="secondary">
             <div class="container">
-                    <h1>Staff Registration</h1>
+                    <h1>Complaint</h1>
                    
                 </div>
     </header>
@@ -110,55 +88,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="row">
 					<div class="col-md-8">
 						
-						
-						<form class="form-light mt-20" role="form" method="post" enctype="multipart/form-data">
-							<div class="form-group">
-								<label>Name</label>
-								<input type="text" class="form-control" name="name" Required>
-							</div>
-                            <div class="form-group">
-								<label>DOB</label>
-								<input type="date" class="form-control" placeholder="Your name" name="dob"  Required>
-							</div>
-                            <div class="form-group">
-                            <label>Gender</label>
-                        <select name="gender" class="form-control" id="exampleSelectGender"  Required>
-                          <option value="Male"  >Male</option>
-                          <option value="Female" >Female</option>
-                        </select>
-                        </div>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Email</label>
-										<input type="email" class="form-control" name="email"  Required>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Password</label>
-										<input type="password" class="form-control" name="password" required>
-									</div>
-								</div>
+                    <form class="forms-sample" method="post">
+      <label for="exampleInputUsername1"></label>
+  
+                      
+                      
+      
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Reply</label>
+                      <input type="text" name="reply"
+                      class="form-control" id="exampleInputUsername1" Required >
+                    </div>
+                    
+                    
+                    <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                  </form>
+                    
 
-							</div>
-                            <div class="form-group">
-								<label>Phone</label>
-								<input type="text" class="form-control"  name="phone"  Required>
-							</div>
-                            <div class="form-group">
-								<label>Address</label>
-								<textarea class="form-control" id="message" style="height:100px;" name="address"  Required></textarea>
-							</div>
-							
-							<div class="form-group">
-							
-                        
-							<input type="file" id="image_id" name="f1" placeholder="image" >
-							</div>
-							
-							<button type="submit" class="btn btn-two" name="submit">Register</button><p><br/></p>
-						</form>
 					</div>
 					
 			</div>
