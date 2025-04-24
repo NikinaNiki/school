@@ -1,4 +1,15 @@
+
 <?php
+session_start();
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
+?><?php
 include 'connection.php';
 $id=$_GET['id'];
 $data=mysqli_query($con,"select * from subject where id='$id'");
@@ -10,9 +21,9 @@ if(isset($_POST['submit']))
   
     $class=$_POST['class'];
    $subject=$_POST['subject'];
-  
+  $totalmark=$_POST['totalmark'];
  
-mysqli_query($con,"update subject set class='$class',subject='$subject' where id='$id'");
+mysqli_query($con,"update subject set class='$class',subject='$subject',totalmark='$totalmark'  where id='$id'");
 echo "<script>window.location.href='viewsubject.php';</script>";
 
 
@@ -105,6 +116,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             
 								<label>subject</label>
 								<input type="text" class="form-control"  name="subject" value="<?php echo $row['subject'];?>">
+							
+                            
+							</div>
+              <div class="form-group">
+              <label>total mark</label>
+								<input type="text" class="form-control"  name="totalmark" value="<?php echo $row['totalmark'];?>">
 							
                             
 							</div>
@@ -271,3 +288,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 </body>
 </html>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>

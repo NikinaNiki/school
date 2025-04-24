@@ -1,5 +1,6 @@
 
 <?php
+include 'connection.php';
 session_start();
 header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
 header("Pragma: no-cache"); // HTTP 1.0
@@ -9,16 +10,43 @@ if(!isset($_SESSION['id']))
 header("location:Login.php");
 exit();
 }
-?><?php
-include 'connection.php';
+//$email=$_SESSION['email'];
+$id=$_SESSION['id'];
+//$data=mysqli_query($con,"select * from studentreg where email='$email'");
+$data1=mysqli_query($con,"select * from teacherreg where id='$id'");
+$row1=mysqli_fetch_assoc($data1);
+//$data2=mysqli_query($con,"select * from studentreg");
+//$row2=mysqli_fetch_assoc($data2);
+$id=$_GET['id'];
 
- session_start();
- $id=$_SESSION['id'];
-$data=mysqli_query($con,"SELECT * from studentreg INNER join mark on studentreg.id=mark.student_id where student_id='$id'");
+$data=mysqli_query($con,"select * from studentreg where id='$id'");
+$row=mysqli_fetch_assoc($data);
+if(isset($_POST['submit']))
+{
+   
+    $student_id=$_POST['student_id'];
+    $teacher_id=$_POST['teacher_id'];
+   
+    $english=$_POST['english'];
+    $hindi=$_POST['hindi'];
+    $malayalam=$_POST['malayalam'];
+    $science=$_POST['science'];
+    $physics=$_POST['physics']; 
+    $chemistry=$_POST['chemistry'];
+    $biology=$_POST['biology'];
+    $maths=$_POST['maths'];
+    $socialscience=$_POST['socialscience'];
+    
+$data=mysqli_query($con,"select * from studentreg where id='$student_id'");
+$row=mysqli_fetch_assoc($data);
+$class=$row['class'];
+mysqli_query($con,"insert into mark(class,student_id,teacher_id,english,hindi,malayalam,science,physics,chemistry,biology,maths,socialscience)values('$class','$student_id','$teacher_id','$english','$hindi','$malayalam','$science','$physics','$chemistry','$biology','$maths','$socialscience')");
 
 
+  
 
 
+}
 ?>
 <!--
 Author: WebThemez
@@ -41,18 +69,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="assets/css/bootstrap-theme.css" media="screen">
 	<link rel="stylesheet" href="assets/css/style.css">
+  <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> <!-- And this one -->
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	<script src="assets/js/html5shiv.js"></script>
 	<script src="assets/js/respond.min.js"></script>
-    
 	<![endif]-->
-    <style>
-        table,tr,th,td{
-            border:2px solid black;
-            border-collapse:collapse;
-        }
-        </style>
 </head>
 
 <body>
@@ -68,7 +91,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right mainNav">
 					
-					<li class="active"><a href="login.php">logout</a></li>
+        <li class="active"><a href="logout.php">logout</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -88,47 +111,93 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="container">
 				<div class="row">
 					<div class="col-md-8">
-                    
-                    <table class="table table-bordered table-dark">
+						
+						
+						<form class="form-light mt-20" role="form" method="post" enctype="multipart/form-data">
+       
+							
+                         
+                          
+<div class="form-group">
 
-                           <tr><th>id</th>
-                           <th>name</th>
-                           <th>class</th>
-                           <th>division</th>
-                            <th>english</th>
-                           <th>hindi</th>
-                           <th>malayalam</th>
-                           <th>sicence</th>
-                           <th>physics</th>
-                           <th>chemistry</th>
-                           <th>biology</th>
-                           <th>maths</th>
-                           <th>socialscience</th>
-</tr>
-<?php
-while($row=mysqli_fetch_assoc($data))
-{
-    ?>
-    <tr>
-    <td><?php echo $row['id'];?></td>
-    <td><?php echo $row['name'];?></td>
-    <td><?php echo $row['class'];?></td>
-    <td><?php echo $row['division'];?></td>
-    
-        <td><?php echo $row['english'];?></td>
-        <td><?php echo $row['hindi'];?></td>
-        <td><?php echo $row['malayalam'];?></td>
-        <td><?php echo $row['science'];?></td>
-        <td><?php echo $row['physics'];?></td>
-        <td><?php echo $row['chemistry'];?></td>
-        <td><?php echo $row['biology'];?></td>
-        <td><?php echo $row['maths'];?></td>
-         <td><?php echo $row['socialscience'];?></td>
-</tr>
-<?php
-}
-?>
-    </table>
+                  </div>
+                          <div class="form-group">
+                          <label for="class">Class:</label>
+                          <input type="text" id="class" name="class" value="<?php echo $row['class'];?>" readonly>
+                                                      
+                                        </div>
+                                        <div class="form-group">
+                          <label for="class">Name:</label>
+                          <input type="text" id="name" name="name" value="<?php echo $row['name'];?>" readonly>
+                                                      
+                                        </div>
+                                        <div class="form-group">
+                          <label for="class">id</label>
+                          <input type="text" id="id" name="student_id" value="<?php echo $row['id'];?>" readonly>
+                                                      
+                                        </div>
+
+
+
+              <div class="form-group">
+                            
+              <label>teacher id</label>
+              <input type="text" class="form-control" name="teacher_id"  value="<?php echo $row1['id'];?>" >
+                          
+                                        
+                          </div>
+                            <div class="form-group">
+								<label>english</label>
+								<input type="text" class="form-control"  name="english">
+							</div>
+                            <div class="form-group">
+								<label>hindi</label>
+								<input type="text" class="form-control"  name="hindi">
+							</div>
+                            <div class="form-group">
+								<label>malyalam</label>
+								<input type="text" class="form-control"  name="malayalam">
+							</div>
+                            
+                            <div class="form-group">
+								<label>science</label>
+								<input type="text" class="form-control"  name="science">
+							</div>
+                            <div class="form-group">
+								<label>physics</label>
+								<input type="text" class="form-control"  name="physics">
+							</div>
+                            <div class="form-group">
+								<label>chemistry</label>
+								<input type="text" class="form-control"  name="chemistry">
+							</div>
+                            <div class="form-group">
+								<label>biology</label>
+								<input type="text" class="form-control"  name="biology">
+							</div>
+                            <div class="form-group">
+								<label>maths</label>
+								<input type="text" class="form-control"  name="maths">
+							</div>
+                            <div class="form-group">
+								<label>socialscience</label>
+								<input type="text" class="form-control"  name="socialscience">
+							</div>
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+								
+							
+                            
+							
+							<button type="submit" class="btn btn-two" name="submit">add mark</button><p><br/></p>
+						</form>
 					</div>
 					
 			</div>
@@ -277,7 +346,7 @@ while($row=mysqli_fetch_assoc($data))
 
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="assets/js/custom.js"></script>
 
@@ -285,9 +354,29 @@ while($row=mysqli_fetch_assoc($data))
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 	<script src="assets/js/google-map.js"></script>
 
+  <script>
+  $(document).ready(function () {
+    $("#stname").change(function () {
+      var student_id = $(this).val();
+      alert("Student ID: " + student_id); // Debug
 
+      $.ajax({
+        url: "get_class.php",
+        method: "POST",
+        data: { id: student_id },
+        success: function (response) {
+          $('#class').val(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("AJAX Error:", error);
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>
+
 <script>
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);

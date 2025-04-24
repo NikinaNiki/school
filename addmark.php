@@ -1,6 +1,14 @@
 <?php
 include 'connection.php';
 session_start();
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
 $email=$_SESSION['email'];
 $id=$_SESSION['id'];
 $data=mysqli_query($con,"select * from studentreg where email='$email'");
@@ -100,98 +108,53 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="row">
 					<div class="col-md-8">
 						
-						
 						<form class="form-light mt-20" role="form" method="post" enctype="multipart/form-data">
        
 							
-                            <div class="form-group">
-                            <label>student name</label>
-                            
-							
-               <select name="student_id" id="stname">
-               <?php
-while($row=mysqli_fetch_assoc($data2))
+                         
+                          
+<div class="form-group">
+<table class="table table-bordered table-dark">
+                      <thead>
+                        <tr>
+                         
+                          <th>
+                          student name
+                          </th>
+                         <th>class</th>
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                      
+                        <tr >
+                        <?php
+while($row2=mysqli_fetch_assoc($data2))
 {
     ?>    
-                <option value="<?php echo $row['id'];?>"><?php echo $row['name'];?></option>
-                <?php
+
+      <td> <?php echo $row2['name'];?></td>
+      <td> <?php echo $row2['class'];?></td>
+
+        <td><a href="addmark1.php?id=<?php echo $row2['id'];?>">add mark</td>
+        
+       
+        
+      
+    </tr>
+    <?php
 }
              ?>
-</select>
-							
-                
-					      
+
+
+                        
+                      </tbody>
+                    </table>
 							
 
              
-                            
-                          </div>
-                          <div class="form-group">
-                          <label for="class">Class:</label>
-                          <input type="text" id="class" name="class" readonly>
-                                                      
-                                        </div>
-
-              <div class="form-group">
-                            
-              <label>teacher id</label>
-              <input type="text" class="form-control" name="teacher_id"  value="<?php echo $row1['id'];?>" >
-                          
-                                        
-                          </div>
-                            <div class="form-group">
-								<label>english</label>
-								<input type="text" class="form-control"  name="english">
-							</div>
-                            <div class="form-group">
-								<label>hindi</label>
-								<input type="text" class="form-control"  name="hindi">
-							</div>
-                            <div class="form-group">
-								<label>malyalam</label>
-								<input type="text" class="form-control"  name="malayalam">
-							</div>
-                            
-                            <div class="form-group">
-								<label>science</label>
-								<input type="text" class="form-control"  name="science">
-							</div>
-                            <div class="form-group">
-								<label>physics</label>
-								<input type="text" class="form-control"  name="physics">
-							</div>
-                            <div class="form-group">
-								<label>chemistry</label>
-								<input type="text" class="form-control"  name="chemistry">
-							</div>
-                            <div class="form-group">
-								<label>biology</label>
-								<input type="text" class="form-control"  name="biology">
-							</div>
-                            <div class="form-group">
-								<label>maths</label>
-								<input type="text" class="form-control"  name="maths">
-							</div>
-                            <div class="form-group">
-								<label>socialscience</label>
-								<input type="text" class="form-control"  name="socialscience">
-							</div>
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-								
-							
-                            
-							
-							<button type="submit" class="btn btn-two" name="submit">add mark</button><p><br/></p>
-						</form>
-					</div>
+                  </div>
+                         					</div>
 					
 			</div>
 	<!-- /container -->
@@ -369,4 +332,14 @@ while($row=mysqli_fetch_assoc($data2))
 </script>
 </body>
 </html>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
 
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>

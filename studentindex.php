@@ -4,6 +4,28 @@ Author URL: http://webthemez.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<?php
+session_start();
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
+?>
+<?php
+session_start();
+header("Cache-Control: non-cache, no-store , must-revalidate");
+header("pragma: no-cache");
+header("Expires:0");
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -381,3 +403,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     
 </body>
 </html>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>

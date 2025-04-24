@@ -1,5 +1,26 @@
+
+<?php
+session_start();
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
+?>
 <?php
 include 'connection.php';
+
 if(isset($_POST['submit']))
 {
     
@@ -49,7 +70,7 @@ mysqli_query($con,"INSERT INTO studentreg(name,dob,gender,email,phone,address,cl
 $id=mysqli_insert_id($con);
 
 mysqli_query($con,"INSERT INTO `login`(`email`, `password`,`type`,`id`) VALUES ('$email','$password','student','$id')");
-header("location:login.php");
+header("location:school.php");
 }
 ?>
 <!--
@@ -329,3 +350,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 </body>
 </html>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>

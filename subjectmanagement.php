@@ -1,11 +1,23 @@
 <?php
-include 'connection.php';
+session_start();
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
+?>
+<?php
+
+
 if (isset($_POST['submit'])) {
   $class = $_POST['class'];
-
+  $totalmark=$_POST['totalmark'];
   if (!empty($_POST['subject'])) {
       foreach ($_POST['subject'] as $sub) {
-        mysqli_query($con, "INSERT INTO subject (class, subject) VALUES ('$class','$sub')");
+        mysqli_query($con, "INSERT INTO subject (class, subject,totalmark) VALUES ('$class','$sub','$totalmark')");
           //$stmt = $con->prepare($query);
           //$stmt->bind_param("ss", $class, $sub);
           //$stmt->execute();
@@ -117,7 +129,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
 
-								
+							
+							</div>
+              <div class="form-group">
+								<label>tota lmark</label>
+								<input type="text" class="form-control" name="totalmark" required>
 							</div>
               <div class="form-group">
 								 
@@ -284,3 +300,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 </body>
 </html>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>

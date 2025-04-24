@@ -4,6 +4,17 @@ Author URL: http://webthemez.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<?php
+session_start();
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,7 +53,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<li><a href="viewnotice.php">check notice</a></li>
 					<li><a href="insertcomplaint.php">Insert complaint</a></li>
 					<li><a href="viewcomplaintreply.php">view complaint reply</a></li>
-                    	<li><a href="viewmark.php">view mark</a></li>
+                    	<!--<li><a href="viewmark.php">view mark</a></li>-->
+                      <li><a href="resulttable.php">progress card</a></li>
                       <li><a href="viewprofile.php">view profile</a></li>
        
           <li><a href="login.php">Logout</a></li>
@@ -381,3 +393,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     
 </body>
 </html>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>

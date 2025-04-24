@@ -1,4 +1,15 @@
 <?php
+session_start();
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+if(!isset($_SESSION['id']))
+{
+header("location:Login.php");
+exit();
+}
+?>
+<?php
 include 'connection.php';
 $id=$_GET['id'];
 $data=mysqli_query($con,"select * from studentreg where id='$id'");
@@ -19,6 +30,7 @@ if(isset($_POST['submit']))
   $division=$_POST['division'];
   $password=$_POST['password'];
   $id=$_POST['id'];
+  $pic=$_FILES['f1']['name'];
   if($pic!="")
   {
 	  $filearray=pathinfo($_FILES['f1']['name']);
@@ -31,8 +43,9 @@ $uploadFile = $uploadDir . basename($_FILES["f1"]["name"]);
 $filename= basename($_FILES["f1"]["name"]);
  
 mysqli_query($con,"update studentreg set name='$name' ,dob='$dob', gender='$gender',email='$email',phone='$phone',address='$address',class='$class',division='$division' ,file='$filename' where id='$id'");
-mysqli_query($con,"update login set name='$name' ,password='$password' where id='$id'");
-
+mysqli_query($con,"update login set email='$email' ,password='$password' where id='$id'");
+echo "<script>alert('update successfully')</script>";
+echo "<script>window.location.href='viewstudent.php';</script>";
 
   }
 }
@@ -346,3 +359,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 </body>
 </html>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+</script>

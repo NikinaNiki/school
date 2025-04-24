@@ -41,6 +41,7 @@ else if($type=="student")
   header("location:student.php");
 }
 else if($type=="staff"){
+  $_SESSION['id']=$row['id'];
   $_SESSION['email']=$row['email'];
   header("location:staff.php");
 }
